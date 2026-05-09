@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎢 北京环球影城 · 快乐出发</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Patrick+Hand&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ================================================
+       HAND-DRAWN DESIGN SYSTEM
+       核心：不规则边框 + 手写字体 + 纸纹背景 + 硬边阴影
+       ================================================ */
+
+    :root {
+      --paper:      #fdfbf7;
+      --pencil:     #2d2d2d;
+      --muted:      #e5e0d8;
+      --red:        #ff4d4d;
+      --yellow:     #fff9c4;
+      --blue:       #2d5da1;
+      --white:      #ffffff;
+      --border:     2px solid #2d2d2d;
+      --border-thick: 3px solid #2d2d2d;
+      --shadow:     4px 4px 0px 0px #2d2d2d;
+      --shadow-lg:  8px 8px 0px 0px #2d2d2d;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--paper);
+      background-image: radial-gradient(#e5e0d8 1px, transparent 1px);
+      background-size: 24px 24px;
+      font-family: 'Noto Sans SC', 'PingFang SC', sans-serif;
+      color: var(--pencil);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* 手写字体 */
+    .hand-title { font-family: 'Kalam', cursive; font-weight: 700; }
+    .hand-body  { font-family: 'Patrick Hand', cursive; }
+
+    /* ================================================
+       HERO BANNER - 全屏宽度
+       ================================================ */
+    .hero {
+      position: relative;
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+      overflow: hidden;
+      background: var(--pencil);
+    }
+    .hero-img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.85) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+    .scroll-arrow {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      color: rgba(255,255,255,0.9);
+      font-size: 24px;
+      animation: bounce-down 1.5s ease-in-out infinite;
+      cursor: pointer;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+    @keyframes bounce-down {
+      0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.9; }
+      50% { transform: translateX(-50%) translateY(8px); opacity: 0.5; }
+    }
+    .hero-body {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-end;
+      padding: 28px 24px 40px;
+      z-index: 2;
+    }
+    .hero-badge {
+      display: inline-block;
+      font-family: 'Kalam', cursive;
+      font-weight: 700;
+      font-size: 13px;
+      background: var(--yellow);
+      color: var(--pencil);
+      border: 2px solid var(--pencil);
+      padding: 6px 18px;
+      margin-bottom: 14px;
+      box-shadow: 3px 3px 0px 0px var(--pencil);
+      transform: rotate(-2deg);
+      /* 不规则边框 */
+      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+    }
+    .hero-title {
+      font-family: 'Kalam', cursive;
+      font-weight: 700;
+      font-size: clamp(52px, 14vw, 110px);
+      color: var(--white);
+      line-height: 0.85;
+      text-shadow: 4px 4px 0px var(--pencil);
+      margin-bottom: 10px;
+      transform: rotate(-1deg);
+    }
+    .hero-sub {
+      font-family: 'Patrick Hand', cursive;
+      font-size: clamp(16px, 3vw, 22px);
+      color: rgba(255,255,255,0.95);
+      margin-bottom: 18px;
+      transform: rotate(0.5deg);
+    }
+
+
+    /* 装饰元素 */
+    .hero-star {
+      position: absolute;
+      font-size: 42px;
+      color: var(--yellow);
+      text-shadow: 2px 2px 0px var(--pencil);
+      animation: bounce 3s ease-in-out infinite;
+    }
+    .hero-star-1 { top: 18px; right: 22px; transform: rotate(15deg); }
+    .hero-star-2 { top: 80px; right: 80px; font-size: 28px; transform: rotate(-10deg); animation-delay: 0.5s; }
+    .hero-star-3 { bottom: 90px; right: 35px; font-size: 34px; transform: rotate(8deg); animation-delay: 1s; }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0) rotate(15deg); }
+      50% { transform: translateY(-8px) rotate(18deg); }
+    }
+
+    /* ================================================
+       LAYOUT
+       ================================================ */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 16px 80px;
+    }
+    .main {
+      max-width: 100%;
+    }
+
+    /* ================================================
+       SECTION HEADER
+       ================================================ */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .schedule-header {
+      justify-content: center;
+      gap: 0;
+    }
+    .schedule-header .section-title {
+      text-align: center;
+    }
+    .section-icon {
+      width: 54px;
+      height: 54px;
+      background: var(--yellow);
+      border: 2px solid var(--pencil);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      box-shadow: 3px 3px 0px 0px var(--pencil);
+      border-radius: 225px 15px 255px 15px / 15px 255px 15px 225px;
+      transform: rotate(-2deg);
+    }
+    .section-title {
+      font-family: 'Kalam', cursive;
+      font-weight: 700;
+      font-size: clamp(28px, 6vw, 40px);
+      color: var(--pencil);
+      transform: rotate(-0.5deg);
+    }
+
+    /* ================================================
+       TIMELINE - 参考图样式：左侧黑色时间标签 + 右侧内容
+       ================================================ */
+    .timeline-wrap {
+      background: var(--white);
+      border: 3px solid var(--pencil);
+      box-shadow: var(--shadow-lg);
+      padding: 28px 24px;
+      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+      transform: rotate(0.2deg);
+      position: relative;
+    }
+
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .tl-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      padding: 18px 0;
+      border-bottom: 1px dashed #ccc;
+    }
+    .tl-item:last-child { border-bottom: none; }
+
+    /* 左侧黑色时间标签 */
+    .tl-time-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-width: 80px;
+      background: var(--pencil);
+      color: var(--white);
+      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+      padding: 10px 14px;
+      box-shadow: 4px 4px 0px 0px rgba(45,45,45,0.25);
+      text-align: center;
+      flex-shrink: 0;
+      transform: rotate(-1deg);
+    }
+    .tl-time-val {
+      font-family: 'Kalam', cursive;
+      font-weight: 700;
+      font-size: 22px;
+      line-height: 1;
+    }
+    .tl-time-period {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 13px;
+      margin-top: 4px;
+      opacity: 0.85;
+    }
+
+    /* 右侧内容 */
+    .tl-body { flex: 1; padding-top: 2px; }
+    .tl-title {
+      font-family: 'Kalam', cursive;
+      font-weight: 700;
+      font-size: 19px;
+      color: var(--pencil);
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+    .tl-desc {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 14px;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    /* ================================================
+       ZONES GRID - 参考图博客卡片样式
+       顶部大图(虚线边框) + 标签 + 标题 + 描述 + 红色链接
+       最受欢迎的卡片(grid-row: span 2)放大显示
+       ================================================ */
+    .zones-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+      align-items: start;
+    }
+    @media (min-width: 768px) { .zones-grid { grid-template-columns: repeat(3, 1fr); } }
+
+    .zone-card {
+      background: var(--white);
+      border: 3px solid var(--pencil);
+      box-shadow: 6px 6px 0px 0px var(--pencil);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      user-select: none;
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+    }
+    .zone-card:nth-child(odd) { transform: none; }
+    .zone-card:nth-child(even) { transform: none; }
+    .zone-card:hover {
+      transform: rotate(0deg) translate(-4px, -4px) !important;
+      box-shadow: 10px 10px 0px 0px var(--pencil);
+    }
+    .zone-card.open { transform: none !important; }
+
+    /* 最受欢迎的卡片 - 放大（跨两列或更高） */
+    .zone-card.featured {
+      grid-column: span 2;
+    }
+    @media (min-width: 768px) {
+      .zone-card.featured { grid-column: 1 / -1; }
+    }
+
+    /* ====== 顶部图片区域（直角虚线边框大图，无留白）====== */
+    .zone-img-wrap {
+      position: relative;
+      width: 100%;
+      height: 170px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      padding: 0;
+      border: none;
+      border-bottom: 3px solid var(--pencil);
+    }
+    /* 不同主题区用不同渐变色 */
+    .zone-card:nth-child(1) .zone-img-wrap { background: url('zone1_thumb_top.jpg') top/cover no-repeat; }
+    .zone-card:nth-child(2) .zone-img-wrap { background: url('zone2_thumb.jpg') center/cover no-repeat; }
+    .zone-card:nth-child(3) .zone-img-wrap { background: url('zone3_thumb.jpg') center/cover no-repeat; }
+    .zone-card:nth-child(4) .zone-img-wrap { background: url('zone4_thumb.jpg') center/cover no-repeat; }
+    .zone-card:nth-child(5) .zone-img-wrap { background: url('zone5_thumb.jpg') center/cover no-repeat; }
+    .zone-card:nth-child(6) .zone-img-wrap { background: url('zone6_thumb.jpg') center/cover no-repeat; }
+    .zone-card:nth-child(7) .zone-img-wrap { background: url('zone7_thumb.jpg') center/cover no-repeat; }
+
+    .featured .zone-img-wrap { height: 220px; }
+
+    /* 悬停效果：图片放大（虚线内框保持） */
+    .zone-card:hover .zone-img-wrap {
+      background-size: 110% !important;
+      transition: background-size 0.3s ease;
+    }
+
+    /* 悬停效果：文字变色 */
+    .zone-card:hover .zone-name {
+      color: var(--red);
+      transition: color 0.15s ease;
+    }
+    .zone-card:hover .zone-desc {
+      color: #333;
+    }
+
+    /* ====== 卡片内容区域 ====== */
+    .zone-body {
+      padding: 14px 18px 18px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    /* 标签（右上角日期风格，蓝色） */
+    .zone-tag {
+      font-family: 'Kalam', cursive;
+      font-weight: 700;
+      font-size: 12px;
+      color: var(--blue);
+      padding: 4px 0;
+      display: inline-block;
+      margin-bottom: 4px;
+      align-self: flex-start;
+      border: none;
+      background: transparent;
+    }
+    .tag-fire { background: var(--red); color: var(--white); }
+    .tag-star { background: #e1bee7; color: var(--pencil); }
+    .tag-safe { background: #c8e6c9; color: var(--pencil); }
+    .tag-pop  { background: #ffe082; color: var(--pencil); }
+    .tag-show { background: #b3e5fc; color: var(--pencil); }
+
+    /* 标题（粗体手写） */
+    .zone-name {
+      font-family: 'Kalam', cursive;
+      font-weight: 700;
+      font-size: 19px;
+      color: var(--pencil);
+      line-height: 1.25;
+      margin-bottom: 8px;
+    }
+
+    /* 描述文字 */
+    .zone-desc {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 13px;
+      color: #555;
+      line-height: 1.55;
+      margin-bottom: 12px;
+      flex: 1;
+    }
+
+    /* 底部红色链接（Read Notes → 风格） */
+    .zone-link {
+      font-family: 'Kalam', cursive;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--red);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: gap 0.15s ease;
+      align-self: flex-start;
+      margin-top: auto;
+      padding-top: 8px;
+    }
+    .zone-link:hover { gap: 8px; }
+
+    /* 隐藏旧元素 */
+    .zone-hd { display: none; }
+    .zone-tape { display: none; }
+    .zone-chevron { display: none; }
+
+    /* Zone detail - 隐藏（内容供弹窗使用） */
+    .zone-detail { display: none; }
+
+    .rides-list { display: flex; flex-direction: column; gap: 12px; }
+    .ride-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px;
+      background: var(--paper);
+      border: 2px dashed var(--pencil);
+      transform: rotate(-0.5deg);
+      border-radius: 15px 225px 15px 255px / 225px 15px 255px 15px;
+    }
+    .ride-item:nth-child(even) { transform: rotate(0.5deg); }
+    .ride-icon {
+      width: 40px;
+      height: 40px;
+      border: 2px solid var(--pencil);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+      border-radius: 225px 15px 255px 15px / 15px 255px 15px 225px;
+    }
+    .ride-body { flex: 1; }
+    .ride-name {
+      font-family: 'Kalam', cursive;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--pencil);
+      margin-bottom: 4px;
+    }
+    .ride-desc {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 13px;
+      color: #444;
+      line-height: 1.5;
+    }
+    .ride-meta { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+    .ride-meta span {
+      font-family: 'Kalam', cursive;
+      font-weight: 700;
+      font-size: 10px;
+      background: var(--red);
+      color: var(--white);
+      border: 1px solid var(--pencil);
+      padding: 2px 8px;
+      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+    }
+
+    .zone-tip {
+      margin-top: 14px;
+      background: var(--yellow);
+      border: 2px solid var(--pencil);
+      padding: 12px 16px;
+      transform: rotate(-0.8deg);
+      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+    }
+    .zone-tip-title {
+      font-family: 'Kalam', cursive;
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--pencil);
+      margin-bottom: 4px;
+    }
+    .zone-tip p {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 13px;
+      color: #444;
+      line-height: 1.5;
+    }
+
+    /* ================================================
+       ACTION ROW - 底部三栏横向布局
+       ================================================ */
+    .action-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      margin-top: 40px;
+    }
+    @media (min-width: 768px) {
+      .action-row {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+      }
+      .action-row-2 {
+        grid-template-columns: 1fr;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+
+    .action-card {
+      background: var(--white);
+      border: 2px solid var(--pencil);
+      box-shadow: var(--shadow);
+      padding: 24px 20px;
+      text-align: center;
+      position: relative;
+      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+    }
+    .action-card:nth-child(1) { transform: rotate(-1deg); }
+    .action-card:nth-child(2) { transform: rotate(0.5deg); background: var(--yellow); }
+
+    /* 报名确认 - 深色卡片（参考图风格） */
+    .action-survey {
+      background: #2a2a2a !important;
+      border: none !important;
+      border-right: 4px solid var(--red) !important;
+      box-shadow: 8px 8px 0 rgba(0,0,0,0.15) !important;
+      transform: rotate(-0.5deg) !important;
+      padding: 48px 32px !important;
+      text-align: center !important;
+      border-radius: 20px 255px 20px 25px / 255px 20px 25px 20px !important;
+      position: relative;
+      overflow: hidden;
+    }
+    .action-survey::before {
+      content: '';
+      position: absolute;
+      top: 15px;
+      left: 20px;
+      width: 40px;
+      height: 30px;
+      border-top: 3px dashed rgba(255,255,255,0.2);
+      border-right: 3px dashed rgba(255,255,255,0.2);
+      border-radius: 0 100% 0 0;
+    }
+    .action-survey .action-icon {
+      font-size: 42px;
+      margin-bottom: 12px;
+    }
+    .action-survey .action-label {
+      color: rgba(255,255,255,0.7) !important;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+    .action-survey .action-title {
+      color: #fff !important;
+      font-size: 32px !important;
+      line-height: 1.3;
+      margin-bottom: 16px !important;
+    }
+    .action-survey .action-desc {
+      color: rgba(255,255,255,0.85) !important;
+      font-size: 15px !important;
+      margin-bottom: 28px !important;
+      line-height: 1.6;
+    }
+    .action-survey .action-btn {
+      background: #fff !important;
+      color: #2a2a2a !important;
+      border: 3px solid #fff !important;
+      box-shadow: 4px 4px 0 rgba(0,0,0,0.3) !important;
+      font-size: 16px !important;
+      padding: 14px 28px !important;
+    }
+    .action-survey .action-btn:hover {
+      background: var(--red) !important;
+      color: #fff !important;
+      border-color: var(--red) !important;
+    }
+
+    .action-icon {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+    .action-label {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 4px;
+    }
+    .action-title {
+      font-family: 'Kalam', cursive;
+      font-weight: 700;
+      font-size: 24px;
+      color: var(--pencil);
+      margin-bottom: 8px;
+    }
+    .action-code {
+      font-family: 'Kalam', cursive;
+      font-weight: 700;
+      font-size: 32px;
+      color: var(--pencil);
+      margin-bottom: 14px;
+      letter-spacing: 0.05em;
+    }
+    .action-desc {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 14px;
+      color: #444;
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+    .action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Kalam', cursive;
+      font-weight: 700;
+      font-size: 14px;
+      background: var(--white);
+      color: var(--pencil);
+      border: 3px solid var(--pencil);
+      padding: 12px 20px;
+      text-decoration: none;
+      box-shadow: 4px 4px 0px 0px var(--pencil);
+      transition: all 0.1s ease;
+      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+    }
+    .action-btn:hover {
+      background: var(--red);
+      color: var(--white);
+      box-shadow: 2px 2px 0px 0px var(--pencil);
+      transform: translate(2px, 2px);
+    }
+    .action-btn:active {
+      box-shadow: none;
+      transform: translate(4px, 4px);
+    }
+    .action-note {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 12px;
+      color: #888;
+      margin-top: 10px;
+    }
+
+    /* ================================================
+       FOOTER
+       ================================================ */
+    .footer {
+      text-align: center;
+      padding: 28px 16px;
+      border-top: 2px dashed var(--pencil);
+      background: var(--paper);
+      margin-top: 12px;
+    }
+    .footer-text {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 14px;
+      color: #666;
+    }
+    .footer-brand {
+      font-family: 'Kalam', cursive;
+      font-weight: 700;
+      color: var(--pencil);
+    }
+
+    /* ================================================
+       RESPONSIVE
+       ================================================ */
+    @media (prefers-reduced-motion: reduce) {
+      .hero-star { animation: none; }
+      .zone-card, .action-btn,
+      .zone-card:hover { transition: none; }
+    }
+    /* ================================================
+       MODAL 弹窗样式
+       ================================================ */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.65);
+      z-index: 1000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal-box {
+      background: var(--paper);
+      border: var(--border-thick);
+      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+      box-shadow: var(--shadow-lg);
+      max-width: 800px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      position: relative;
+      animation: modalPop 0.3s ease;
+    }
+    @keyframes modalPop {
+      from { transform: scale(0.8) rotate(-2deg); opacity: 0; }
+      to { transform: scale(1) rotate(-0.5deg); opacity: 1; }
+    }
+    .modal-close {
+      position: absolute;
+      top: 12px; right: 12px;
+      width: 40px; height: 40px;
+      border: 2px solid var(--pencil);
+      background: var(--white);
+      font-size: 24px;
+      cursor: pointer;
+      border-radius: 225px 15px 255px 15px / 15px 255px 15px 225px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Kalam', cursive;
+      transition: background 0.2s;
+    }
+    .modal-close:hover { background: var(--red); color: white; }
+    .modal-header {
+      padding: 24px 24px 12px;
+      border-bottom: 2px dashed var(--pencil);
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .modal-header-tag {
+      font-family: 'Kalam', cursive;
+      font-weight: 700;
+      font-size: 12px;
+      padding: 4px 12px;
+      border: 1px solid var(--pencil);
+      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+    }
+    .modal-title {
+      font-family: 'Kalam', cursive;
+      font-weight: 700;
+      font-size: 22px;
+      color: var(--pencil);
+    }
+    .modal-content { padding: 20px 24px 24px; }
+
+    /* 弹窗内复用rides样式 */
+    .modal-content .rides-list { display: flex; flex-direction: column; gap: 12px; }
+    .modal-content .zone-tip {
+      margin-top: 16px;
+      background: var(--yellow);
+      border: 2px solid var(--pencil);
+      padding: 14px 18px;
+      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+    }
+    .modal-content .zone-tip-title {
+      font-family: 'Kalam', cursive;
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ==================== HERO BANNER ==================== -->
+<div class="hero">
+  <img class="hero-img"
+       src="环球影城海报_0507_16x9.jpg"
+       alt="北京环球影城">
+  <div class="hero-overlay"></div>
+  <div class="hero-body">
+    <div class="hero-badge">Beijing Universal Studios</div>
+    <h1 class="hero-title">快乐出发!</h1>
+    <p class="hero-sub">7月10日 · 一日狂欢 · 带上好心情</p>
+    <div class="hero-star hero-star-1">★</div>
+    <div class="hero-star hero-star-2">✦</div>
+    <div class="hero-star hero-star-3">★</div>
+  </div>
+  <div class="scroll-arrow" onclick="window.scrollTo({top: document.body.scrollHeight, behavior:'smooth'})">▼</div>
+</div>
+
+<div class="container">
+
+  <!-- ==================== 主栏 ==================== -->
+  <div class="main">
+
+    <!-- Timeline -->
+    <div style="margin-top:48px;">
+      <div class="section-header schedule-header">
+        <div class="section-title">行程安排</div>
+      </div>
+      <div class="timeline-wrap">
+
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-time-badge">
+              <span class="tl-time-val">08:00</span>
+              <span class="tl-time-period">早上</span>
+            </div>
+            <div class="tl-body">
+              <div class="tl-title">🏨 酒店门口集合</div>
+              <div class="tl-desc">全员在酒店大堂门口集合，清点人数，统一出发</div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time-badge">
+              <span class="tl-time-val">08:30</span>
+              <span class="tl-time-period">上午</span>
+            </div>
+            <div class="tl-body">
+              <div class="tl-title">🎫 入园准备</div>
+              <div class="tl-desc">凭票入园，领取地图与演出时间表，拍摄大合照留念</div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time-badge">
+              <span class="tl-time-val">全天</span>
+              <span class="tl-time-period">畅玩</span>
+            </div>
+            <div class="tl-body">
+              <div class="tl-title">🚀 自由游玩</div>
+              <div class="tl-desc">按个人喜好自由体验各大精彩项目，建议结伴同行</div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-time-badge">
+              <span class="tl-time-val">20:00</span>
+              <span class="tl-time-period">晚上</span>
+            </div>
+            <div class="tl-body">
+              <div class="tl-title">🏨 返程集合</div>
+              <div class="tl-desc">园区出口集合点名，统一乘车返回酒店</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7 Theme Zones -->
+    <div style="margin-top:48px;">
+      <div class="section-header" style="justify-content:center;">
+        <div class="section-title">7大主题</div>
+      </div>
+      <div class="zones-grid">
+
+        <!-- Zone 1 - 最受欢迎，放大展示 -->
+        <div class="zone-card featured" onclick="openZoneModal(0)">
+          <!-- 顶部图片区域 -->
+          <div class="zone-img-wrap">
+          </div>
+          <!-- 卡片内容 -->
+          <div class="zone-body">
+            <span class="zone-tag tag-fire">🔥 必玩</span>
+            <div class="zone-name">变形金刚传奇现场</div>
+            <div class="zone-desc">与擎天柱并肩作战！火种源争夺战360°裸眼4D体验，霸天虎过山车0-100km/h仅需2秒，全球最刺激的机械冒险乐园。</div>
+            <a class="zone-link" href="#" onclick="event.preventDefault()">查看详情 →</a>
+          </div>
+          <!-- 展开详情区 -->
+          <div class="zone-detail">
+            <div class="zone-detail-inner">
+              <div class="rides-list">
+                <div class="ride-item">
+                  <div class="ride-icon" style="background:#ffecec;">🎢</div>
+                  <div class="ride-body">
+                    <div class="ride-name">🔥 火种源争夺战</div>
+                    <div class="ride-desc">与擎天柱并肩作战，360°旋转穿越火种源争夺战！裸眼4D体验，全程失重旋转！</div>
+                    <div class="ride-meta"><span>⭐必刷</span><span>⏱约3分钟</span><span>🎭4D体验</span></div>
+                  </div>
+                </div>
+                <div class="ride-item">
+                  <div class="ride-icon" style="background:#ede7ff;">🚀</div>
+                  <div class="ride-body">
+                    <div class="ride-name">⚡ 霸天虎过山车</div>
+                    <div class="ride-desc">全球最刺激的过山车之一！0-100km/h仅需2秒，弹出式过山车，极致失重！</div>
+                    <div class="ride-meta"><span>🔥刺激</span><span>⏱约1.5分钟</span><span>⚠1米2以上</span></div>
+                  </div>
+                </div>
+                <div class="ride-item">
+                  <div class="ride-icon" style="background:#e0f4ff;">🤖</div>
+                  <div class="ride-body">
+                    <div class="ride-name">🤖 大黄蜂回旋机</div>
+                    <div class="ride-desc">与大黄蜂一起旋转战斗！适合全家一起体验的旋转类项目，欢乐无限。</div>
+                    <div class="ride-meta"><span>👨‍👩‍👧趣味</span><span>⏱约2分钟</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="zone-tip">
+                <div class="zone-tip-title">💡 游玩攻略</div>
+                <p>建议入园后第一时间抢「火种源争夺战」FP！上午10点前排队体验最佳。霸天虎过山车需身高1米2以上。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Zone 2 -->
+        <div class="zone-card" onclick="openZoneModal(1)">
+          <div class="zone-img-wrap">
+          </div>
+          <div class="zone-body">
+            <span class="zone-tag tag-star">✨ 经典</span>
+            <div class="zone-name">哈利波特魔法世界</div>
+            <div class="zone-desc">乘魔法扫帚穿越霍格沃茨城堡，与摄魂怪对决！全球最顶级的4D骑乘，傍晚灯光秀美到窒息。</div>
+            <a class="zone-link" href="#" onclick="event.preventDefault()">查看详情 →</a>
+          </div>
+          <div class="zone-detail">
+            <div class="zone-detail-inner">
+              <div class="rides-list">
+                <div class="ride-item">
+                  <div class="ride-icon" style="background:#ede7ff;">🧙</div>
+                  <div class="ride-body">
+                    <div class="ride-name">🪄 哈利波特：禁忌之旅</div>
+                    <div class="ride-desc">乘魔法扫帚穿越霍格沃茨，与摄魂怪对决！全球最顶级的4D骑乘之一！</div>
+                    <div class="ride-meta"><span>⭐必刷</span><span>⏱约4分钟</span><span>🎭4D沉浸</span></div>
+                  </div>
+                </div>
+                <div class="ride-item">
+                  <div class="ride-icon" style="background:#fff9e6;">🦅</div>
+                  <div class="ride-body">
+                    <div class="ride-name">🦅 鹰马飞行</div>
+                    <div class="ride-desc">乘鹰马在海格的摩托车中飞翔，穿过霍格沃茨城堡上空，欣赏魔法世界全景！</div>
+                    <div class="ride-meta"><span>🌟趣味</span><span>⏱约2分钟</span></div>
+                  </div>
+                </div>
+                <div class="ride-item">
+                  <div class="ride-icon" style="background:#fff0e6;">🏪</div>
+                  <div class="ride-body">
+                    <div class="ride-name">🧣 魔杖店 &amp; 三把扫帚餐厅</div>
+                    <div class="ride-desc">互动魔杖体验，施放魔法！三把扫帚必吃烤鸡和黄油啤酒！</div>
+                    <div class="ride-meta"><span>🍖美食</span><span>🪄购物</span><span>⏱30分钟+</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="zone-tip">
+                <div class="zone-tip-title">💡 游玩攻略</div>
+                <p>傍晚灯光秀时拍摄城堡最美。购买互动魔杖是最好纪念品，三把扫帚餐厅11点前到不用排队。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Zone 3 -->
+        <div class="zone-card" onclick="openZoneModal(2)">
+          <div class="zone-img-wrap">
+          </div>
+          <div class="zone-body">
+            <span class="zone-tag tag-safe">🌴 趣味</span>
+            <div class="zone-name">侏罗纪世界努布拉岛</div>
+            <div class="zone-desc">穿越恐龙时代！全地形越野车近距离接触霸王龙，翼龙飞行360°全景视角，激流勇进溅水MAX！</div>
+            <a class="zone-link" href="#" onclick="event.preventDefault()">查看详情 →</a>
+          </div>
+          <div class="zone-detail">
+            <div class="zone-detail-inner">
+              <div class="rides-list">
+                <div class="ride-item">
+                  <div class="ride-icon" style="background:#e8f5e9;">🌊</div>
+                  <div class="ride-body">
+                    <div class="ride-name">🦕 侏罗纪大冒险</div>
+                    <div class="ride-desc">乘全地形越野车穿越侏罗纪世界努布拉岛，与霸王龙和迅猛龙近距离接触！</div>
+                    <div class="ride-meta"><span>🌟必刷</span><span>⏱约4分钟</span><span>🎭4D体验</span></div>
+                  </div>
+                </div>
+                <div class="ride-item">
+                  <div class="ride-icon" style="background:#e0f2f1;">🐉</div>
+                  <div class="ride-body">
+                    <div class="ride-name">🐉 飞越侏罗纪</div>
+                    <div class="ride-desc">骑乘翼龙穿越瀑布峡谷，360°全景飞行体验，仿佛真的在恐龙世界翱翔！</div>
+                    <div class="ride-meta"><span>🔥刺激</span><span>⏱约2.5分钟</span><span>⚠1米以上</span></div>
+                  </div>
+                </div>
+                <div class="ride-item">
+                  <div class="ride-icon" style="background:#e3f2fd;">🐊</div>
+                  <div class="ride-body">
+                    <div class="ride-name">🐊 侏罗纪河大冒险</div>
+                    <div class="ride-desc">激流勇进穿越恐龙栖息地！溅水指数MAX，建议自备雨衣或直接湿透！</div>
+                    <div class="ride-meta"><span>💦湿身</span><span>⏱约5分钟</span><span>👨‍👩‍👧全家</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="zone-tip">
+                <div class="zone-tip-title">💡 游玩攻略</div>
+                <p>侏罗纪大冒险是室内4D，排队时间较稳定。「飞越侏罗纪」是热门建议上午体验。夏天记得带换洗衣服或雨衣！</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Zone 4 -->
+        <div class="zone-card" onclick="openZoneModal(3)">
+          <div class="zone-img-wrap">
+          </div>
+          <div class="zone-body">
+            <span class="zone-tag tag-pop">💛 人气</span>
+            <div class="zone-name">小黄人乐园</div>
+            <div class="zone-desc">超级萌乐岛！跟随小小兵大闹一场，3D动感剧场笑点密集，拍照超好看的全年龄段欢乐天堂。</div>
+            <a class="zone-link" href="#" onclick="event.preventDefault()">查看详情 →</a>
+          </div>
+          <div class="zone-detail">
+            <div class="zone-detail-inner">
+              <div class="rides-list">
+                <div class="ride-item">
+                  <div class="ride-icon" style="background:#fffde7;">🎬</div>
+                  <div class="ride-body">
+                    <div class="ride-name">🎥 神偷奶爸：小小兵闹翻天</div>
+                    <div class="ride-desc">跟随格鲁的小小兵们大闹一场！3D动感模拟剧场，笑点密集，全年龄段超爱！</div>
+                    <div class="ride-meta"><span>👨‍👩‍👧全家</span><span>⏱约4分钟</span><span>🎭3D剧场</span></div>
+                  </div>
+                </div>
+                <div class="ride-item">
+                  <div class="ride-icon" style="background:#fff9c4;">🎠</div>
+                  <div class="ride-body">
+                    <div class="ride-name">🎡 超萌漩涡</div>
+                    <div class="ride-desc">小小兵主题旋转飞椅！配色超萌，拍照超好看，适合小朋友和少女心！</div>
+                    <div class="ride-meta"><span>👶趣味</span><span>⏱约2分钟</span></div>
+                  </div>
+                </div>
+                <div class="ride-item">
+                  <div class="ride-icon" style="background:#fff3e0;">🐾</div>
+                  <div class="ride-body">
+                    <div class="ride-name">🐾 萌转过山车</div>
+                    <div class="ride-desc">小小兵主题迷你过山车！入门级刺激体验，小朋友也能玩！</div>
+                    <div class="ride-meta"><span>👶趣味</span><span>⏱约1.5分钟</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="zone-tip">
+                <div class="zone-tip-title">💡 游玩攻略</div>
+                <p>小黄人乐园是拍照圣地！萌转过山车适合不敢坐大过山车的人。神偷奶爸剧场全家皆宜，是休息吹空调的好选择。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Zone 5 -->
+        <div class="zone-card" onclick="openZoneModal(4)">
+          <div class="zone-img-wrap">
+          </div>
+          <div class="zone-body">
+            <span class="zone-tag tag-show">🎭 演出</span>
+            <div class="zone-name">未来水世界</div>
+            <div class="zone-desc">世界顶级水上特技表演！摩托车杂技、爆炸特效、飞机俯冲，全程高能震撼，建议提前30分钟占座！</div>
+            <a class="zone-link" href="#" onclick="event.preventDefault()">查看详情 →</a>
+          </div>
+          <div class="zone-detail">
+            <div class="zone-detail-inner">
+              <div class="rides-list">
+                <div class="ride-item">
+                  <div class="ride-icon" style="background:#e0f7fa;">🎭</div>
+                  <div class="ride-body">
+                    <div class="ride-name">🎭 未来水世界：终极漂流</div>
+                    <div class="ride-desc">世界顶级水上特技！摩托车杂技、爆炸特效、飞机俯冲，全程高能！建议提前20分钟占座！</div>
+                    <div class="ride-meta"><span>🔥震撼</span><span>⏱约25分钟</span><span>📅每日多场</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="zone-tip">
+                <div class="zone-tip-title">💡 游玩攻略</div>
+                <p>演出时间表在入园后查看，建议提前30分钟到「前区」占座（湿身区）体验最震撼！每天演出1-2场，注意时间！</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Zone 6 -->
+        <div class="zone-card" onclick="openZoneModal(5)">
+          <div class="zone-img-wrap">
+          </div>
+          <div class="zone-body">
+            <span class="zone-tag tag-safe">👶 趣味</span>
+            <div class="zone-name">功夫熊猫盖世之地</div>
+            <div class="zone-desc">中国风全室内场馆！夏天避暑首选，阿宝同款牛肉面必吃，神龙大侠之旅排队时间短超省心。</div>
+            <a class="zone-link" href="#" onclick="event.preventDefault()">查看详情 →</a>
+          </div>
+          <div class="zone-detail">
+            <div class="zone-detail-inner">
+              <div class="rides-list">
+                <div class="ride-item">
+                  <div class="ride-icon" style="background:#ffebee;">🐉</div>
+                  <div class="ride-body">
+                    <div class="ride-name">🐉 功夫熊猫：神龙大侠之旅</div>
+                    <div class="ride-desc">跟随阿宝打败天煞！室内漂流+4D体验，中国风十足，园区内最适合全家的室内骑乘！</div>
+                    <div class="ride-meta"><span>👨‍👩‍👧全家</span><span>⏱约4分钟</span><span>🎭4D漂流</span></div>
+                  </div>
+                </div>
+                <div class="ride-item">
+                  <div class="ride-icon" style="background:#fff8e1;">🏮</div>
+                  <div class="ride-body">
+                    <div class="ride-name">🏮 灯影传奇</div>
+                    <div class="ride-desc">乘旋转灯笼俯瞰和平山谷！中国风旋转骑乘，夜晚灯光超美，最佳拍照点！</div>
+                    <div class="ride-meta"><span>👶趣味</span><span>⏱约3分钟</span><span>📸拍照</span></div>
+                  </div>
+                </div>
+                <div class="ride-item">
+                  <div class="ride-icon" style="background:#fff3e0;">🥟</div>
+                  <div class="ride-body">
+                    <div class="ride-name">🥟 平氏面馆</div>
+                    <div class="ride-desc">阿宝家的中式面馆！招牌牛肉拉面和各类中式小食，景区内口碑极佳，适合午餐！</div>
+                    <div class="ride-meta"><span>🍜美食</span><span>⏱即食</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="zone-tip">
+                <div class="zone-tip-title">💡 游玩攻略</div>
+                <p>功夫熊猫区是全室内场馆，夏天避暑首选！神龙大侠之旅排队时间短，阿宝同款牛肉面必吃。下午逛完后可在此休息躲太阳。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Zone 7 -->
+        <div class="zone-card" onclick="openZoneModal(6)">
+          <div class="zone-img-wrap">
+          </div>
+          <div class="zone-body">
+            <span class="zone-tag tag-show">🎭 表演</span>
+            <div class="zone-name">好莱坞</div>
+            <div class="zone-desc">电影梦工厂！环球独家歌舞剧《不可驯服》必看，电影特效揭秘互动，满额退税。</div>
+            <a class="zone-link" href="#" onclick="event.preventDefault()">查看详情 →</a>
+          </div>
+          <div class="zone-detail">
+            <div class="zone-detail-inner">
+              <div class="rides-list">
+                <div class="ride-item">
+                  <div class="ride-icon" style="background:#fce4ec;">🎤</div>
+                  <div class="ride-body">
+                    <div class="ride-name">🎤 不可驯服</div>
+                    <div class="ride-desc">环球影城独家歌舞剧！梦工厂动画《不可驯服》原版演出，演员阵容强大，舞台效果惊艳，强烈推荐！</div>
+                    <div class="ride-meta"><span>⭐推荐</span><span>⏱约30分钟</span><span>🎵歌舞</span></div>
+                  </div>
+                </div>
+                <div class="ride-item">
+                  <div class="ride-icon" style="background:#ede7f6;">🌟</div>
+                  <div class="ride-body">
+                    <div class="ride-name">🎬 电影特效秀</div>
+                    <div class="ride-desc">揭秘好莱坞电影特效制作！体验风暴、闪电、火灾特效，最后参与拍摄一段小电影！</div>
+                    <div class="ride-meta"><span>🎭互动</span><span>⏱约25分钟</span></div>
+                  </div>
+                </div>
+                <div class="ride-item">
+                  <div class="ride-icon" style="background:#fff9c4;">🏪</div>
+                  <div class="ride-body">
+                    <div class="ride-name">🎁 环球影城商店</div>
+                    <div class="ride-desc">好莱坞大道主商店，汇集全园区所有周边纪念品！满额可退税，傍晚时分光线最美。</div>
+                    <div class="ride-meta"><span>🛍购物</span><span>⏱30分钟+</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="zone-tip">
+                <div class="zone-tip-title">💡 游玩攻略</div>
+                <p>「不可驯服」是必看演出！请提前在App查看当天场次并提前15分钟到场。好莱坞大道适合傍晚拍照，光线最美。商店晚上8点前关门注意时间。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /zones-grid -->
+    </div>
+
+    <!-- ==================== 底部两栏：会议 + 报名 ==================== -->
+    <div style="margin-top:48px;">
+      <div class="section-header" style="justify-content:center;">
+        <div class="section-title">开启环球之旅</div>
+      </div>
+    </div>
+    <div class="action-row action-row-2">
+      <!-- Survey - 深色CTA卡片 -->
+      <div class="action-card action-survey">
+        <div class="action-icon">🎢</div>
+        <div class="action-label">确认你的参加意向</div>
+        <div class="action-title">Ready to 环球影城？</div>
+        <div class="action-desc">填写报名表，方便 Jerry 统计人数、安排出行</div>
+        <a class="action-btn" href="https://wj.qq.com/s2/26581313/94c9">
+          ✅ 立即填写报名表
+        </a>
+      </div>
+    </div>
+
+  </div><!-- /main -->
+
+</div><!-- /container -->
+
+<!-- Footer -->
+<div class="footer">
+  <div class="footer-text">
+    由 <span class="footer-brand">Jerry</span> 发起 · 2026年7月10日 · <span class="footer-brand">HAND-DRAWN</span>
+  </div>
+</div>
+
+  <!-- 弹窗 -->
+  <div class="modal-overlay" id="zoneModal">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal()">×</button>
+      <div class="modal-header">
+        <span class="modal-header-tag" id="modalTag"></span>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <div class="modal-content" id="modalContent"></div>
+    </div>
+  </div>
+
+<script>
+  // Zone data for modal
+  const zoneData = [
+    { tag: '🔥 必玩', name: '变形金刚传奇现场' },
+    { tag: '经典', name: '哈利波特魔法世界' },
+    { tag: '趣味', name: '侏罗纪世界努布拉岛' },
+    { tag: '欢乐', name: '小黄人乐园' },
+    { tag: '演出', name: '未来水世界' },
+    { tag: '中国风', name: '功夫熊猫盖世之地' },
+    { tag: '经典', name: '好莱坞' }
+  ];
+
+  function openZoneModal(index) {
+    const data = zoneData[index];
+    const card = document.querySelectorAll('.zone-card')[index];
+    const detail = card.querySelector('.zone-detail-inner');
+    
+    document.getElementById('modalTag').textContent = data.tag;
+    document.getElementById('modalTitle').textContent = data.name;
+    document.getElementById('modalContent').innerHTML = detail.innerHTML;
+    document.getElementById('zoneModal').classList.add('show');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('zoneModal').classList.remove('show');
+    document.body.style.overflow = '';
+  }
+
+  // Click overlay to close
+  document.getElementById('zoneModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+
+  // ESC key to close
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+</script>
+
+</body>
+</html>
